@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Northwise: a political compass test and ideology guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#171716;--ink:#f4f0e8;--mute:#b3aea5;--panel:#1f1f1d;--line:#363633;--acc:#f4f0e8;--q1:#262624;--q2:#323230;--q3:#1b1b1a;--q4:#3d3d3a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 Nunito,"Segoe UI",system-ui,sans-serif}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;max-width:900px;margin:0 auto;padding:16px}
+.logo{font:600 24px Quicksand,Nunito,sans-serif}
+nav{display:flex;gap:18px}
+a{color:var(--ink)}
+section{max-width:900px;margin:0 auto;padding:32px 16px}
+h1{font:600 clamp(36px,7vw,60px)/1.05 Quicksand,Nunito,sans-serif;margin:0 0 12px;max-width:16ch}
+h2{font:600 30px Quicksand,Nunito,sans-serif;margin:0 0 8px}
+.lead{color:var(--mute);max-width:56ch;margin:0 0 20px}
+.btn{font:500 17px Nunito,"Segoe UI",sans-serif;background:var(--ink);color:var(--bg);border:0;border-radius:14px;padding:12px 24px;cursor:pointer}
+.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn:focus-visible,.opt:focus-visible,a:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:20px}
+.prog{height:4px;background:var(--line);border-radius:2px;margin:8px 0 20px}
+.prog div{height:4px;background:var(--acc);border-radius:2px}
+.q{font:500 24px/1.35 Quicksand,Nunito,sans-serif;margin:0 0 20px;min-height:3.4em}
+.opts{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.opt{font:400 14px/1.3 Nunito,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:12px 4px;cursor:pointer}
+.opt:hover{border-color:var(--acc)}
+.res{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:640px){.res{grid-template-columns:minmax(0,1fr)}.opts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.lb{fill:var(--mute);font:12px Nunito,sans-serif}
+.nums{display:flex;gap:16px;margin:8px 0 16px}
+.nums b{display:block;font:600 32px Quicksand,Nunito,sans-serif}
+.nums span{font-size:14px;color:var(--mute)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.id{border-left:6px solid var(--line)}
+.id h3{font:600 21px Quicksand,Nunito,sans-serif;margin:0}
+.id small{color:var(--mute)}
+.id p{margin:8px 0 0;font-size:15px}
+.opt{background:#f4f0e8;color:#171716;border-color:#f4f0e8}.opt:hover{background:#ddd8cd;border-color:#ddd8cd}.btn,.btn.alt{background:#f4f0e8;color:#171716;border:1px solid #f4f0e8}.btn:hover{background:#ddd8cd}
+body{line-height:1.75}.btn,.opt{transition:background .3s ease,transform .3s ease}.btn:hover,.opt:hover{transform:translateY(-2px)}.prog div{transition:width .5s ease}
+.fade{animation:fade .6s ease both}@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.id{opacity:0;transform:translateY(14px);transition:opacity .8s ease,transform .8s ease}.id.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.fade{animation:none}.btn,.opt,.id{transition:none}.btn:hover,.opt:hover{transform:none}}
+.picks{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.pick{text-align:left;padding:16px;font-size:14px}.pick b{display:block;font:600 30px Quicksand,Nunito,sans-serif}
+body.lock header,body.lock #top,body.lock #ideologies,body.lock #about,body.lock #characters,body.lock footer{display:none}body.lock #test{padding-top:40px;min-height:100vh}
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:center}@media (max-width:700px){.hero{grid-template-columns:minmax(0,1fr)}}
+.art svg{width:100%;max-width:340px;display:block;margin:auto}.needle{transform-origin:160px 160px}
+@media (prefers-reduced-motion:no-preference){.needle{animation:sway 9s ease-in-out infinite alternate}}@keyframes sway{from{transform:rotate(-18deg)}to{transform:rotate(22deg)}}
+.em{display:block;width:calc(100% + 40px);margin:-20px -20px 10px;height:100px;border-radius:22px 22px 0 0;-webkit-mask-image:linear-gradient(#000 40%,transparent);mask-image:linear-gradient(#000 40%,transparent)}
+.em.flat{width:100%;margin:0 0 12px;border-radius:22px;-webkit-mask-image:none;mask-image:none}
+footer{max-width:900px;margin:0 auto;padding:24px 16px 40px;color:var(--mute);font-size:14px}
+</style>
+</head>
+<body>
+<header><span class="logo">Northwise</span><nav><a href="#test">Test</a><a href="#ideologies">Ideologies</a><a href="#characters">Characters</a><a href="#about">About</a></nav></header>
+
+<section id="top"><div class="hero"><div>
+<h1>Let's find where you sit on the map</h1>
+<p class="lead">Answer 20, 50 or 100 statements about the economy and about personal freedom. Take your time. You'll get a spot on the compass, the ideology closest to it, and a fictional character who lands near you.</p>
+<a class="btn" href="#test" style="text-decoration:none;display:inline-block">Take the test</a>
+</div><div class="art fade"><svg viewBox="0 0 320 320" role="img" aria-label="A compass over a four-quadrant political map"><defs><clipPath id="cp"><circle cx="160" cy="160" r="150"/></clipPath></defs><g clip-path="url(#cp)"><rect x="10" y="10" width="150" height="150" fill="var(--q1)"/><rect x="160" y="10" width="150" height="150" fill="var(--q2)"/><rect x="10" y="160" width="150" height="150" fill="var(--q3)"/><rect x="160" y="160" width="150" height="150" fill="var(--q4)"/></g><circle cx="160" cy="160" r="150" fill="none" stroke="var(--ink)" stroke-width="2"/><circle cx="160" cy="160" r="110" fill="none" stroke="var(--line)"/><circle cx="160" cy="160" r="70" fill="none" stroke="var(--line)"/><line x1="160" y1="10" x2="160" y2="310" stroke="var(--line)"/><line x1="10" y1="160" x2="310" y2="160" stroke="var(--line)"/><g fill="var(--ink)" opacity=".6"><circle cx="95" cy="95" r="5"/><circle cx="230" cy="120" r="5"/><circle cx="110" cy="215" r="5"/><circle cx="215" cy="225" r="5"/><circle cx="190" cy="70" r="5"/></g><g class="needle"><polygon points="160,30 172,160 148,160" fill="var(--ink)"/><polygon points="160,290 172,160 148,160" fill="var(--mute)"/></g><circle cx="160" cy="160" r="9" fill="var(--bg)" stroke="var(--ink)" stroke-width="3"/></svg></div></div>
+</section>
+
+<section id="test">
+<h2>The test</h2>
+<p class="lead">Go with your first feeling. There are no wrong answers, and you can go back any time.</p>
+<div class="card" id="box"></div>
+</section>
+
+<section id="ideologies">
+<h2>Ideology guide</h2>
+<p class="lead">Nine broad families, placed on the same compass. Real people and parties rarely fit one box, and each family contains many internal disagreements.</p>
+<div class="grid" id="ids"></div>
+</section>
+
+<section id="characters">
+<h2>Characters</h2>
+<p class="lead">Fictional characters placed on the map by me, just for fun. The pictures are illustrated badges, not official artwork.</p>
+<div class="grid" id="chars"></div>
+</section>
+
+<section id="about">
+<h2>About this site</h2>
+<p class="lead">The compass has two axes. The economic axis runs from left (more public ownership and redistribution) to right (more free-market and low taxes). The social axis runs from libertarian (more personal freedom) to authoritarian (more state authority, order and tradition).</p>
+<p class="lead">This is a short, simplified quiz written for fun. It is not affiliated with the Political Compass organisation, and the wording of any questions shapes the result, so treat it as a conversation starter rather than a measurement.</p>
+</section>
+<footer>Scores run from -10 to +10 on each axis. Nothing you enter leaves your browser.</footer>
+
+<script>
+var Q=[
+["Markets, not governments, should decide most prices and wages.","e",1],
+["Strict law and order matters more than protecting suspects' rights.","s",1],
+["The wealthy should pay much higher taxes to fund public services.","e",-1],
+["Adults should be free to live as they choose, even if most people disapprove.","s",-1],
+["Key industries like energy and rail should be publicly owned.","e",-1],
+["A country's culture should be protected, and newcomers should adopt it.","s",1],
+["Welfare should be limited so people are encouraged to work.","e",1],
+["Governments should not monitor citizens, even to prevent crime.","s",-1],
+["Government should guarantee healthcare and housing for everyone.","e",-1],
+["Traditional values and institutions should be actively upheld by the state.","s",1],
+["Fewer business regulations lead to a stronger economy.","e",1],
+["People should be free to criticize their country and leaders without limits.","s",-1],
+["Strong trade unions protect workers and help the economy.","e",-1],
+["Strong leaders who act decisively are better than lengthy debate.","s",1],
+["Private companies usually run services better than the state.","e",1],
+["Drug use and lifestyle choices should be decided by individuals, not the state.","s",-1],
+["Inequality is a problem the state should actively reduce.","e",-1],
+["Public order is more important than the right to protest.","s",1],
+["People should keep what they earn, with taxes kept as low as possible.","e",1],
+["Religion and morality should be kept out of law.","s",-1]
+];
+var E=[["Minimum wage laws do more harm than good.",1],["Billionaires should not exist; wealth should be capped.",-1],["Schools and universities should be mostly privately run.",1],["Public transport should be free and state-funded.",-1],["Corporations should be free to set their own prices.",1],["Workers should have a say in running their workplace.",-1],["Selling state companies to private owners usually helps the economy.",1],["Rent and housing prices should be controlled by law.",-1],["Free trade between countries benefits most people.",1],["Big banks and finance should be tightly regulated.",-1],["Inheritance should be taxed heavily.",-1],["Individuals should pay for their own healthcare and pensions.",1],["The state should provide a universal basic income.",-1],["Competition, not planning, drives progress.",1],["Essential utilities should never be run for profit.",-1],["Tax cuts for businesses create jobs for everyone.",1],["Unions have too much power.",1],["Wealth taxes are fair.",-1],["Self-employed workers need less regulation, not more.",1],["The government should do more to redistribute wealth.",-1],["Government subsidies distort the economy and should end.",1],["Public libraries, parks and broadband should be fully tax-funded.",-1],["Parents should choose any school using state vouchers.",1],["Large companies should be broken up if they dominate a market.",-1],["Property rights matter more than public planning.",1],["Pharmaceutical and energy firms should be nationalized.",-1],["A flat tax rate is fairer than progressive taxes.",1],["There should be a maximum pay ratio between CEOs and workers.",-1],["People who choose not to work should not get state support.",1],["Everyone should have free university education.",-1],["Environmental rules should not be allowed to block business growth.",1],["Cooperatives are better than traditional corporations.",-1],["Charity and families, not the state, should help the poor.",1],["Prices of food and fuel should be controlled in a crisis.",-1],["Government debt should be cut even if public services shrink.",1],["Capitalism needs fundamental reform or replacement.",-1],["Self-made success shows anyone can get ahead.",1],["Healthcare is a right, not a product.",-1],["State pensions should be replaced with private savings.",1],["The economy should serve people first and profit second.",-1]];
+var S=[["Society is better when everyone shares a common culture and language.",1],["Whistleblowers who leak state secrets should be protected.",-1],["Military service should be compulsory.",1],["Same-sex couples should have the same legal rights as any other couple.",-1],["Offensive media should be censored.",1],["People should be free to say anything, even hateful speech.",-1],["Young people need more discipline and respect for authority.",1],["Police should be heavily restricted in how they use force.",-1],["The death penalty is justified for the worst crimes.",1],["Prisons should focus on rehabilitation, not punishment.",-1],["Borders should be tightly controlled.",1],["Euthanasia should be a personal choice.",-1],["A nation's flag and anthem deserve legal protection.",1],["Courts should limit the government even if voters disagree.",-1],["Order and stability matter more than individual freedom.",1],["Recreational drugs should be legalized.",-1],["Marriage should be encouraged over other living arrangements.",1],["Citizens should be able to share any information freely.",-1],["Schools should teach patriotism.",1],["Mass surveillance is acceptable if it makes people safer.",1],["People should be able to protest anywhere, even if it causes disruption.",-1],["Criminals should face harsher sentences.",1],["Conscientious objectors should never be forced to serve.",-1],["Public schools should promote traditional morals.",1],["Abortion decisions should belong to the individual.",-1],["A strong central authority is needed to keep society stable.",1],["Minority rights matter even when the majority disagrees.",-1],["Immigrants who commit crimes should be deported.",1],["The press must be free to criticize the government without penalty.",-1],["The state should discourage unhealthy habits through law.",1],["Civil liberties should never be suspended, even in emergencies.",-1],["Religious holidays and symbols should be protected in public life.",1],["People should be able to opt out of state tracking systems.",-1],["Respecting elders and hierarchy keeps society healthy.",1],["Anonymous online speech should be protected.",-1],["Rule-breakers in public should be firmly punished.",1],["Cultural change should be left to individuals, not government.",-1],["A leader who breaks procedure to get things done can be justified.",1],["No one should be forced to follow a faith or tradition.",-1],["Equal treatment under law matters more than the national interest.",-1]];
+var ALLQ=Q.slice();for(var m=0;m<40;m++){ALLQ.push([E[m][0],"e",E[m][1]]);ALLQ.push([S[m][0],"s",S[m][1]])}
+function inits(n){return n.split(" ").slice(0,2).map(function(w){return w[0]}).join("")}
+function emblem(n,e,s,ini,flat){var h=0,k;for(k=0;k<n.length;k++){h=(h*31+n.charCodeAt(k))%100003}
+function r(){h=(h*1103515245+12345)%2147483648;return h/2147483648}
+var o='<svg class="em'+(flat?' flat':'')+'" viewBox="0 0 300 110" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="110" fill="var(--q'+(e<0?(s>0?1:3):(s>0?2:4))+')"/>';
+for(k=0;k<6;k++){o+='<circle cx="'+Math.round(r()*300)+'" cy="'+Math.round(r()*110)+'" r="'+Math.round(14+r()*40)+'" fill="#f4f0e8" opacity="'+(0.05+r()*0.1).toFixed(2)+'"/>'}
+for(k=0;k<3;k++){var x=Math.round(r()*300);o+='<line x1="'+x+'" y1="0" x2="'+(x+40)+'" y2="110" stroke="#f4f0e8" stroke-width="2" opacity=".12"/>'}
+o+='<rect x="236" y="20" width="50" height="50" fill="none" stroke="#f4f0e8" opacity=".35"/><circle cx="'+(261+e*2.4)+'" cy="'+(45-s*2.4)+'" r="4" fill="#f4f0e8"/>';
+if(ini){o+='<text x="40" y="72" font-size="44" font-family="Quicksand,Nunito,sans-serif" font-weight="600" fill="#f4f0e8" opacity=".85">'+ini+'</text>'}
+return o+'</svg>'}
+function unlock(id){document.body.classList.remove("lock");document.getElementById(id).scrollIntoView()}
+function makeCard(E,S,ranked,ch,pc){
+var cv=document.createElement("canvas");cv.width=900;cv.height=1150;var c=cv.getContext("2d"),F="Quicksand,Nunito,sans-serif",INK="#f4f0e8",MU="#b3aea5";
+function ft(txt,w,sz,max){while(sz>16){c.font=w+" "+sz+"px "+F;if(c.measureText(txt).width<=max)break;sz-=2}c.font=w+" "+sz+"px "+F}
+function tx(s,x,y,col,al){c.fillStyle=col;c.textAlign=al||"left";c.fillText(s,x,y)}
+function draw(){
+c.fillStyle="#171716";c.fillRect(0,0,900,1150);
+ft("Northwise",600,40,300);tx("Northwise",60,90,INK);
+c.font="500 26px "+F;tx("My result",840,90,MU,"right");tx("Closest ideology",60,170,MU);
+ft(ranked[0][0],600,68,780);tx(ranked[0][0],60,245,INK);
+c.font="600 40px "+F;tx(pc(ranked[0][1],ranked[0][2])+"% match",60,300,INK);
+[["#262624",0,0],["#323230",1,0],["#1b1b1a",0,1],["#3d3d3a",1,1]].forEach(function(r){c.fillStyle=r[0];c.fillRect(60+r[1]*165,350+r[2]*165,165,165)});
+c.strokeStyle="#363633";c.lineWidth=2;c.strokeRect(60,350,330,330);
+c.font="500 18px "+F;tx("Authoritarian",225,376,MU,"center");tx("Libertarian",225,664,MU,"center");tx("Left",72,520,MU);tx("Right",378,520,MU,"right");
+var dx=225+Math.max(-10,Math.min(10,E))*16.5,dy=515-Math.max(-10,Math.min(10,S))*16.5;
+c.beginPath();c.arc(dx,dy,11,0,6.2832);c.fillStyle=INK;c.fill();c.lineWidth=4;c.strokeStyle="#171716";c.stroke();
+c.font="500 24px "+F;tx("Closest character",450,385,MU);
+ft(ch[0][0],600,44,390);tx(ch[0][0],450,440,INK);
+c.font="600 32px "+F;tx(pc(ch[0][1],ch[0][2])+"% match",450,490,INK);
+ft(ch[0][3],500,22,390);tx(ch[0][3],450,530,MU);
+c.font="500 28px "+F;tx("Economic "+(E>0?"+":"")+E.toFixed(1),450,610,INK);tx("Social "+(S>0?"+":"")+S.toFixed(1),450,650,INK);
+c.font="600 28px "+F;tx("Top ideologies",60,745,MU);
+for(var k=0;k<6;k++){var y=800+k*56,p=pc(ranked[k][1],ranked[k][2]);
+ft(ranked[k][0],500,26,390);tx(ranked[k][0],60,y,INK);
+c.fillStyle="#363633";c.fillRect(470,y-20,300,18);c.fillStyle=INK;c.fillRect(470,y-20,300*p/100,18);
+c.font="600 26px "+F;tx(p+"%",790,y,INK)}
+c.font="500 22px "+F;tx("Just for fun. Not a scientific test.",450,1110,MU,"center");
+var im=document.getElementById("card");if(im)im.src=cv.toDataURL("image/png")}
+draw();if(document.fonts&&document.fonts.ready){document.fonts.ready.then(draw)}
+}
+function menu(){document.body.classList.remove("lock");box.innerHTML='<p class="q" style="min-height:0">How many questions?</p><div class="picks"><button class="btn pick" onclick="start(20)"><b>20</b>Quick, about 3 minutes</button><button class="btn pick" onclick="start(50)"><b>50</b>Balanced, about 8 minutes</button><button class="btn pick" onclick="start(100)"><b>100</b>Thorough, about 15 minutes</button></div>'}
+function start(n){Q=ALLQ.slice(0,n);i=0;a=[];document.body.classList.add("lock");window.scrollTo(0,0);render()}
+var L=["Strongly disagree","Disagree","Neutral","Agree","Strongly agree"];
+var IDS=[
+["Libertarian socialism",-7,-8,"Seeks a society without a ruling state or private capital, run through voluntary cooperation, worker councils and local self-governance. Combines strong economic equality with a deep suspicion of concentrated power.","q3"],
+["Democratic socialism",-6,-2,"Wants major industries and services under public or worker ownership, achieved through elections and democratic institutions rather than revolution, while keeping civil liberties.","q3"],
+["Social democracy",-3,-2,"Accepts a market economy but wants a strong welfare state, progressive taxes, labor protections and public healthcare and education to reduce inequality.","q3"],
+["Liberalism",2,-4,"Prioritizes individual rights, rule of law and open societies, with mostly market-based economies and a limited but active state. Details vary a lot between traditions.","q4"],
+["Libertarianism",8,-8,"Aims for a minimal state: very low taxes, few regulations, free markets and maximum personal freedom, with government mostly limited to protecting rights and property.","q4"],
+["Conservatism",5,3,"Values tradition, stable institutions, family and gradual change over rapid reform. Usually favors markets and lower taxes alongside respect for established social norms.","q2"],
+["National conservatism",3,6,"Puts national identity, shared culture, border control and sovereignty first, often backing traditional values and mixing market economics with state support for workers and industry.","q2"],
+["Right-wing authoritarianism",6,8,"Favors a strong state that enforces order, hierarchy and national or religious identity, with limited tolerance for dissent. Economic views range from market-friendly to state-directed.","q2"],
+["Anarcho-capitalism",10,-9,"Argues that even the state's core functions, like courts and security, can be provided by private and voluntary arrangements, with property rights and free exchange as the foundation of society.","q4"],
+["Neoliberalism",7,-2,"Backs open markets, privatization, deregulation, free trade and fiscal restraint as the main routes to growth, while keeping a state that enforces contracts and a limited safety net.","q4"],
+["Centrism",0,0,"Aims for pragmatic middle ground, mixing market and state approaches case by case and avoiding strong ideological commitments on either side.","q3"],
+["Christian democracy",2,2,"Blends social conservatism rooted in religious ethics with support for a social market economy, including welfare, family policy and community institutions.","q2"],
+["Right-wing populism",2,4,"Presents politics as ordinary people against elites, usually stressing national identity, tighter immigration and law and order, with economic views that vary from market-friendly to protectionist.","q2"],
+["Left-wing populism",-4,2,"Presents politics as ordinary people against economic and political elites, backing redistribution, public services and tougher rules on big business, sometimes with a strong central leader.","q1"],
+["Green politics",-5,-4,"Puts environmental sustainability first, with policies on climate, energy and conservation, along with support for social justice, grassroots democracy and local communities.","q3"],
+["Marxism",-9,2,"Analyzes society through class conflict and seeks collective ownership of the means of production, with the goal of a classless society. Interpretations differ widely on how to get there.","q1"],
+["Anarchism",-3,-10,"Rejects compulsory rule by a state and hierarchy in general, favoring voluntary, self-organized communities. Its branches range from collectivist to individualist.","q3"],
+["Classical liberalism",6,-5,"Stresses individual liberty, limited government, free markets, property rights and the rule of law, rooted in Enlightenment thought.","q4"],
+["Social liberalism",-1,-4,"Defends personal freedoms and a market economy but accepts a broader state role in education, healthcare and equal opportunity.","q3"],
+["Progressivism",-4,-3,"Pushes for reform to address inequality, discrimination and social problems, usually through active government policy and expanding rights.","q3"],
+["Market socialism",-5,-3,"Keeps markets and competition but puts firms under worker, cooperative or public ownership instead of private shareholders.","q3"],
+["Syndicalism",-7,-5,"Organizes the economy through trade unions and workers' federations, which would run industry directly and replace the traditional state.","q3"],
+["Mutualism",-4,-8,"Imagines an economy of small producers and cooperatives trading fairly through mutual credit, without exploitation or a ruling state.","q3"],
+["Eco-socialism",-7,-4,"Argues that capitalism drives environmental damage, and pairs collective ownership with ecological limits on growth.","q3"],
+["Distributism",-2,2,"Wants property spread widely among families and small producers, inspired by Catholic social teaching, to avoid both big capital and big state.","q1"],
+["Communitarianism",-1,3,"Holds that community bonds, shared values and responsibilities matter as much as individual rights, and shapes policy around them.","q1"],
+["Third Way",1,-1,"Tries to combine market economics with social goals, accepting competition and fiscal discipline alongside investment in education and welfare.","q3"],
+["Fiscal conservatism",7,0,"Focuses on low taxes, balanced budgets, low public debt and restrained spending, with varied views on social issues.","q4"],
+["One-nation conservatism",1,3,"Believes the privileged have duties to the wider community, so backs social cohesion, some welfare and gradual reform to hold society together.","q2"],
+["Neoconservatism",6,6,"Supports free markets at home, a strong military and active promotion of democratic values abroad, plus traditional moral values.","q2"],
+["Economic nationalism",0,3,"Uses tariffs, subsidies and industrial policy to protect domestic jobs and industries and to reduce dependence on other countries.","q2"],
+["Technocracy",1,3,"Argues that trained experts, not politicians or voters, should make key decisions based on data and evidence.","q2"],
+["Monarchism",4,6,"Supports a monarch as head of state, from ceremonial constitutional systems to stronger, absolute forms of rule.","q2"],
+["Theocracy",1,9,"Government guided by religious law and clergy, where legal and political authority is tied to a faith.","q2"],
+["Minarchism",8,-5,"Wants a night-watchman state limited to police, courts and defense, and nothing beyond protecting rights and property.","q4"],
+["Georgism",0,-4,"Treats land as a shared resource, so taxes land values instead of work and trade to fund public goods and lower costs.","q3"],
+["Fascism",1,10,"A 20th-century ultranationalist movement of dictatorial rule, state control of society and suppression of opposition, tied to regimes such as Italy 1922-43.","q2"],
+["Authoritarian socialism",-7,7,"Combines state or collective ownership of the economy with a powerful central government that directs economic and political life, often through a single governing party.","q1"]
+];
+var CHARS=[["Eric Cartman",4,8,"South Park, wants control his way"],["Batman",2,5,"Gotham, order through personal justice"],["Emperor Palpatine",2,10,"Star Wars, total rule"],["Judge Dredd",2,10,"Mega-City, the law is everything"],["Light Yagami",0,10,"Death Note, a self-appointed judge"],["Daenerys Targaryen",-2,6,"Game of Thrones, liberator turned ruler"],["Aragorn",2,4,"Lord of the Rings, rightful king and duty"],["Mr. Krabs",10,0,"SpongeBob, profit above all"],["Tony Stark",6,-2,"Marvel, tech billionaire, wary of oversight"],["Ron Swanson",9,-7,"Parks and Rec, wants government gone"],["Sherlock Holmes",1,-4,"Independent mind, own rules"],["Gandalf",0,-3,"Lord of the Rings, guides but doesn't rule"],["Spock",0,2,"Star Trek, logic and the greater good"],["Captain America",-1,-2,"Marvel, fairness and personal conscience"],["Leslie Knope",-3,-1,"Parks and Rec, believes in public service"],["Hermione Granger",-2,-3,"Harry Potter, rules, rights and reform"],["Lisa Simpson",-5,-5,"The Simpsons, idealist and reformer"],["Katniss Everdeen",-4,-7,"Hunger Games, fights an oppressive state"],["Robin Hood",-8,-4,"Redistributes from the rich to the poor"]];
+var i=0,a=[],box=document.getElementById("box");
+function pct(){return Math.round(i/Q.length*100)}
+function render(){
+if(i>=Q.length){return result()}
+var h='<div style="display:flex;justify-content:space-between;color:var(--mute);font-size:14px"><span>Question '+(i+1)+' of '+Q.length+'</span><span>'+pct()+'%</span></div><div class="prog"><div style="width:'+pct()+'%"></div></div><p class="q">'+Q[i][0]+'</p><div class="opts">';
+for(var k=0;k<5;k++){h+='<button class="opt" onclick="pick('+(k-2)+')">'+L[k]+'</button>'}
+h+='</div>';
+h+='<p style="margin:16px 0 0;display:flex;gap:8px">'+(i>0?'<button class="btn alt" onclick="back()" style="padding:8px 16px;font-size:14px">Back</button>':'')+'<button class="btn alt" onclick="menu()" style="padding:8px 16px;font-size:14px">Leave quiz</button></p><p style="margin:12px 0 0;font-size:13px;color:var(--mute)">Tip: press 1 to 5 on your keyboard to answer.</p>'
+box.innerHTML=h;
+}
+function pick(v){a[i]=v;i++;render()}
+function back(){if(i>0){i--;render()}}
+function result(){
+var e=0,s=0,ne=0,ns=0;
+for(var k=0;k<Q.length;k++){var v=a[k]*Q[k][2];if(Q[k][1]=="e"){e+=v;ne++}else{s+=v;ns++}}
+var E=Math.round(e/(ne*2)*100)/10,S=Math.round(s/(ns*2)*100)/10;
+var ranked=IDS.slice().sort(function(p,q){return Math.hypot(p[1]-E,p[2]-S)-Math.hypot(q[1]-E,q[2]-S)});
+var ch=CHARS.slice().sort(function(p,q){return Math.hypot(p[1]-E,p[2]-S)-Math.hypot(q[1]-E,q[2]-S)});function pc(x,y){return Math.max(0,Math.round(100*(1-Math.hypot(x-E,y-S)/16)))}var x=180+Math.max(-10,Math.min(10,E))*15,y=170-Math.max(-10,Math.min(10,S))*15;
+var svg='<svg viewBox="0 0 360 340" width="100%" role="img" aria-label="Your position on the compass"><rect x="30" y="20" width="150" height="150" fill="var(--q1)"/><rect x="180" y="20" width="150" height="150" fill="var(--q2)"/><rect x="30" y="170" width="150" height="150" fill="var(--q3)"/><rect x="180" y="170" width="150" height="150" fill="var(--q4)"/><rect x="30" y="20" width="300" height="300" fill="none" stroke="var(--line)"/><text class="lb" x="180" y="38" text-anchor="middle">Authoritarian</text><text class="lb" x="180" y="312" text-anchor="middle">Libertarian</text><text class="lb" x="36" y="164">Left</text><text class="lb" x="324" y="164" text-anchor="end">Right</text><circle cx="'+x+'" cy="'+y+'" r="8" fill="var(--acc)" stroke="var(--bg)" stroke-width="2"/></svg>';
+var h='<div class="res"><div>'+svg+'</div><div><h2>Closest family: '+ranked[0][0]+' ('+pc(ranked[0][1],ranked[0][2])+'%)</h2><div class="nums"><div><b>'+(E>0?"+":"")+E.toFixed(1)+'</b><span>Economic</span></div><div><b>'+(S>0?"+":"")+S.toFixed(1)+'</b><span>Social</span></div></div><p style="margin:0 0 12px">'+ranked[0][3]+'</p>'+emblem(ch[0][0],ch[0][1],ch[0][2],inits(ch[0][0]),1)+'<p style="margin:0 0 12px">Closest character: '+ch[0][0]+' ('+pc(ch[0][1],ch[0][2])+'%) <span style="color:var(--mute)">('+ch[0][3]+'). Just for fun.</span></p><p style="margin:0 0 16px;color:var(--mute)">Next closest: '+ranked[1][0]+'. Matching only compares distance on the map, so read the guide below before settling on a label.</p><button class="btn" onclick="menu()">Choose length</button> <button class="btn alt" onclick="unlock(\'ideologies\')">Browse ideologies</button></div></div><div style="margin-top:28px"><p style="color:var(--mute);margin:0 0 8px">Your profile card. Right-click or long-press to save it.</p><img id="card" alt="Your compass result card" style="width:100%;max-width:450px;border-radius:22px;display:block"></div>';
+box.innerHTML=h;makeCard(E,S,ranked,ch,pc);
+}
+var g=document.getElementById("ids"),gh="";
+IDS.forEach(function(d){gh+='<div class="card id" style="border-left-color:var(--'+d[4]+')">'+emblem(d[0],d[1],d[2],"")+'<h3>'+d[0]+'</h3><small>Economic '+(d[1]>0?"+":"")+d[1]+', social '+(d[2]>0?"+":"")+d[2]+'</small><p>'+d[3]+'</p></div>'});
+g.innerHTML=gh;
+var ch2="";CHARS.forEach(function(c){ch2+='<div class="card id">'+emblem(c[0],c[1],c[2],inits(c[0]))+'<h3>'+c[0]+'</h3><small>Economic '+(c[1]>0?"+":"")+c[1]+', social '+(c[2]>0?"+":"")+c[2]+'</small><p>'+c[3]+'.</p></div>'});
+document.getElementById("chars").innerHTML=ch2;
+var cards=document.querySelectorAll(".id");
+if("IntersectionObserver" in window){var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add("in");io.unobserve(en.target)}})},{threshold:.1});cards.forEach(function(c){io.observe(c)})}else{cards.forEach(function(c){c.classList.add("in")})}
+new MutationObserver(function(){box.classList.remove("fade");void box.offsetWidth;box.classList.add("fade")}).observe(box,{childList:true});
+document.addEventListener("keydown",function(ev){if(document.body.classList.contains("lock")&&i<Q.length&&ev.key>="1"&&ev.key<="5"){pick(ev.key-3)}});
+menu();
+</script>
+</body>
+</html>
